@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Book Shop</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style-rtl.css">
+    </head>
+
+    <body onload="onInit()" class="bg-light">
+        <div class="container">
+            <h1 class="text-center font-weight-bold text-info mt-3 mb-3 text-capitalize" data-trans="title">Emili's Book Shop</h1>
+
+            <section class="container text-center">
+                <div class="container d-flex flex-wrap justify-content-between">
+                    <div class="p-2">
+                        <button type="button" data-trans="add-book" class="btn btn-secondary text-capitalize  font-weight-bold text-warning add-books" data-toggle="modal" data-target="#add-book" >Add a new book</button>
+                    </div>
+                    <div class="dropdown change-lang p-2 mb-3">
+                        <button class="btn btn-secondary text-capitalize dropdown-toggle " type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            change-lang
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" onclick="onChangeLang('he')">עברית</a>
+                            <a class="dropdown-item" onclick="onChangeLang('en')"">English</a>
+                        </div>
+                    </div>
+                </div>
+
+                <table class="table table-responsive-md table-striped table-dark table-hover">
+                    <thead>
+                        <tr class="text-warning">
+                            <th scope="col" class="id text-capitalize" data-trans="title-id" class="row-start" onclick="onSortBooks('id')">id</th>
+                            <th scope="col" class="name text-capitalize" data-trans="title-name" onclick="onSortBooks('name')">Title</th>
+                            <th scope="col" class="price text-capitalize" data-trans="title-price" onclick="onSortBooks('price')">Price</th>
+                            <th scope="col" class="text-capitalize" colspan="3" data-trans="title-actions">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="books-list"></tbody>
+                </table>
+                
+            </section>
+
+            <nav class="container-fluid fixed-bottom bg-secondary mb-0 navbar justify-self pagination">
+                <ul class="nav mx-auto"></ul>
+            </nav>
+        </div>
+        
+            <!-- Modal add book-->
+            <div class="modal fade" id="add-book" tabindex="-1" role="dialog" aria-labelledby="add-book" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-capitalize" data-trans="add-book" id="exampleModalLabel">Add a new book</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form onsubmit="onSubmitBook(event)">
+                            <div class="mb-3 form-group">
+                                <label for="validationCustom01" class="form-label text-capitalize" data-trans="label-book-name">Book name</label>
+                                <input type="text" class="form-control new-book name" name="book-name" id="validationCustom01" data-trans="placeholder-book-name" name="book-name"  placeholder="book name here" required>
+                            </div>
+                            <div class="mb-3 form-group">
+                                <label for=validationCustom02" class="form-label text-capitalize" data-trans="label-book-price" >Book Price</label>
+                                <input type="number" min="0" max="300" class="form-control new-book price" name="book-price" id="validationCustom02" data-trans="placeholder-book-price" name="book-price"  placeholder="book price here" required>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary mx-auto submit bg-info" data-trans="btn-submit-book">Add Book</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- modal update price -->
+            <div class="modal fade mx-auto modal-sm" id="update-price" tabindex="-1" role="dialog" aria-labelledby="update-price" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title  text-capitalize" data-trans="label-new-price" id="exampleModalLabel">New price</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body mx-auto">
+                        <form class="update-price" onsubmit="onSubmitNewPrice(event,this)">
+                            <div class="container mb-3 form-group">
+
+                        <div class="row mx-auto">
+
+                            <input type="number" min="10" max="300" style="width: 100px;"" class="update-price mx-auto" data-trans="placeholder-new-price"name="new-price" placeholder="New price" required />
+                        </div>
+                            </div>
+                            <button class="btn btn-info submit text-capitalize" data-trans="btn-submit-price">Submit new price</button>
+                        </form>
+                    </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Book details modal -->
+            <div class="modal fade mx-auto" id="read-book" tabindex="-1" role="dialog" aria-labelledby="read-book" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="card-title book-name text-capitalize"></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body mx-auto">
+                        <div class="card book-details" id="read-book" style="width: 100%;">
+                            <img class="card-img-top  book-cover" src="" alt="">
+                            <div class="card-body">
+                                
+                                <p class="card-text book-description"></p>
+                        
+                                <nav class="navbar container rate-container">
+                                    <ul class="nav mx-auto">
+                                    <li><div class="rate font-weight-bold text-info headline mx-2 text-capitalize" style="height:30px;" data-trans="rate">Rate:</div></li>
+                                    <li><button class="rate mx-1 btn-info" onclick="onChangeRate(-1)">-</button></li>
+                                    <li><div class="rate num mx-1 px-2">0</div></li>
+                                    <li><button class="rate mx-1 btn-info" onclick="onChangeRate(1)">+</button></li>
+                                </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script src="js/utils.js"></script>
+        <script src="js/service/i18n-service.js"></script>
+        <script src="js/service/storage-service.js"></script>
+        <script src="js/service/books-service.js"></script>
+        <script src="js/books-controller.js"></script>
+    </body>
+</html>

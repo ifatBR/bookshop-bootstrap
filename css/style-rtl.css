@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Knewave&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sriracha&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;700&display=swap');
+* {
+    box-sizing: border-box;
+}
+
+
+
+body.rtl, body.rtl table{
+    direction: rtl !important;
+
+}
+
+body.rtl div, body.rtl h1, body.rtl h2, body.rtl h3, body.rtl h4, body.rtl h5,body.rtl button, body.rtl th,
+body.rtl label, body.rtl .submit{
+    font-family: 'Rubik', sans-serif !important;
+    
+}
+
+body.rtl div {
+    text-align: right;
+}
+
