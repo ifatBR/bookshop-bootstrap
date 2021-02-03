@@ -24,3 +24,13 @@ body.rtl div {
     text-align: right;
 }
 
+
+body.rtl .close{
+    position:absolute;
+    left:5px;
+}
+
+.btns-ctrl, nav{
+    direction: ltr;
+}
+
